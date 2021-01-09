@@ -1,0 +1,3 @@
+참고할 자료
+
+[자료1](https://scarlett-dev.gitbook.io/all/it/lazy-loading#:~:text=%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%97%90%EC%84%9C%20%EB%B9%84%EB%8F%99%EA%B8%B0%EC%A0%81,%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%97%90%EC%84%9C%EB%8A%94%20%EB%8D%94%EC%9A%B1%20%EC%9E%90%EC%A3%BC%20%EB%B3%B4%EC%9E%85%EB%8B%88%EB%8B%A4.)
