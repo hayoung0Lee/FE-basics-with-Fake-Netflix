@@ -13,3 +13,10 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
 - [Justified Layout](memo/JustifiedLayout.md)
 - [Repaint vs Reflow](memo/RepainAndReflow.md)
 
+### create react app docs
+- [what is public folder](https://create-react-app.dev/docs/using-the-public-folder/)
+
+### react with typescript
+- [adding typescript](https://create-react-app.dev/docs/adding-typescript/)
+
+- [typescript cheatsheets](https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets)
