@@ -20,8 +20,9 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
 
 - [koa란?](https://backend-intro.vlpt.us/) / [koa vs express](https://geonlee.tistory.com/217)
 
-### 사용한 라이브러리
+### 참고한 내용
 - [styled-components](https://styled-components.com/docs)
+- [picsum](https://picsum.photos/)
   
 ## 학습 내용
 ### 1단계 프로젝트 구조 잡기(Route 관련)
@@ -47,6 +48,15 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
   - layout 은 styled-components를 사용해서 스타일을 적용했고, layout은 flex를 이용해서 했는데, 공부한지 좀 되서 나중에 레이아웃 잡는것만 싹 한번 정리를 하긴 하려고 한다. 
   - 헤더 구성
   <img src="./assets/3.png">
+
+- thumbnail이 보이고 등등 main의 레이아웃 구성하기
+  <img src="./assets/4.png">
+
+  <img src="./assets/5.png">
+
+  오랜만에 레이아웃을 잡고하니까 좀 헷갈리긴 하는데, 이번에 해보고 다음에 다른 프로젝트를 하면 좀더 기억이 날 것 같긴하다. 이미지는 지금까지는 고정으로 구성하고, 스크롤 등 필요할 기능들은 구현을 했다. 
+  
+  이제 이를 바탕으로 필요한 이미지만 로드 할 수 있도록 하고, 무한 로딩은 필요한건 아닌데 한번 넣어보고 싶다. 
 
 - 이미지 여러개 보이게 하기(스크롤 계속해서 보이도록) (Image Lazy Loading)
 

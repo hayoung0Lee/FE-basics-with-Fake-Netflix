@@ -4,7 +4,7 @@ import Header from "./Header";
 import Search from "./Search";
 import Watch from "./Watch";
 import Settings from "./Settings";
-
+import Footer from "./Footer";
 import Browses from "./Browse/Browses";
 function App() {
   return (
@@ -26,6 +26,7 @@ function App() {
           <Browses />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 }

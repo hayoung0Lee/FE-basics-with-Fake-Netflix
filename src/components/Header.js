@@ -7,7 +7,13 @@ const HeaderWrap = styled.div`
   align-items: center;
   width: 90%;
   height: 68px;
-  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
 `;
 
 const NavMenu = styled.ul`
