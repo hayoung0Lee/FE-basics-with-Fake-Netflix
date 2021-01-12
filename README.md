@@ -20,6 +20,9 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
 
 - [koa란?](https://backend-intro.vlpt.us/) / [koa vs express](https://geonlee.tistory.com/217)
 
+### 사용한 라이브러리
+- [styled-components](https://styled-components.com/docs)
+  
 ## 학습 내용
 ### 1단계 프로젝트 구조 잡기(Route 관련)
 1. components 폴더를 만들고, 필요할 것 같은 컴포넌트를 생성했다. 
@@ -38,9 +41,20 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
 
 react router를 통해서 간단하게 라우터를 구성했다. 해보고 다른게 더 좋으면 그때 써보려고 한다. 
 
+### 2단계 main 리스트 구성하기
+
+- Header 구성하기: [layout 잡기](https://heropy.blog/2018/11/24/css-flexible-box/)
+  - layout 은 styled-components를 사용해서 스타일을 적용했고, layout은 flex를 이용해서 했는데, 공부한지 좀 되서 나중에 레이아웃 잡는것만 싹 한번 정리를 하긴 하려고 한다. 
+  - 헤더 구성
+  <img src="./assets/3.png">
+
+- 이미지 여러개 보이게 하기(스크롤 계속해서 보이도록) (Image Lazy Loading)
+
+- 검색할때 검색이 끝나면 결과를 보이도록만들기(Debounce, Throttle)
+
 <!-- 
 
-3. [react-router-redux](https://www.npmjs.com/package/react-router-redux)
+1. [react-router-redux](https://www.npmjs.com/package/react-router-redux)
   - 처음 진입하는 화면(로그인 후 프로파일 설정화면)
   - 메인 화면(계속 늘어나는)
   - 네비게이션 선택마다 비슷한 모양인데도 다르게 보이도록 구성(장르별로 보이는 것)
@@ -49,6 +63,7 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
 
 2. [redux-saga](https://redux-saga.js.org/)
    
+3. styled-component
 - 이미지는 그냥 랜덤하게 아무거나 보이도록 만들기
 
 ### 2단계 메인 페이지 처리하기
