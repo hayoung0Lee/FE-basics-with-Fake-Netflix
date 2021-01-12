@@ -10,7 +10,7 @@ function Thumbnail() {
   return (
     <div>
       <ThumnailImg>
-        <img src="https://picsum.photos/230/120/?blur" />
+        <img src="https://picsum.photos/230/120/?blur" alt="temp" />
       </ThumnailImg>
     </div>
   );
