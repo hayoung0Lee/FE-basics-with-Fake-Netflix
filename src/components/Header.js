@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import SearchBtn from "./Search/SearchBtn";
 
 const HeaderWrap = styled.div`
   display: flex;
@@ -35,14 +36,6 @@ const NavMenuLink = styled(Link)`
   margin-left: 18px;
 `;
 
-const SearchMenu = styled.div`
-  height: 25px;
-  color: white;
-  // border: 1px solid white;
-  display: flex;
-  align-items: center;
-`;
-
 function Header() {
   return (
     <HeaderWrap>
@@ -68,7 +61,7 @@ function Header() {
           <NavMenuLink to="/settings">My List</NavMenuLink>
         </li>
       </NavMenu>
-      <SearchMenu>search menu ------------------</SearchMenu>
+      <SearchBtn />
     </HeaderWrap>
   );
 }
