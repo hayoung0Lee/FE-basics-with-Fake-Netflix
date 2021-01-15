@@ -48,7 +48,7 @@ function Header() {
     <HeaderWrap>
       <NavMenu>
         <Logo>
-          <span>FAKELIX</span>
+          <span>FAKEFLIX</span>
         </Logo>
         <li>
           <NavMenuLink to="/browse">Home</NavMenuLink>
