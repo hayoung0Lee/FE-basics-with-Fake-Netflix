@@ -190,8 +190,106 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
 - 무한 스크롤 만들어보기(더 좋은 방법도 공부하기)
   - [Javascript - 디바운싱, 쓰로틀링](https://zinirun.github.io/2020/08/16/js-throttling-debouncing/)
   - [무한 스크롤 만들기](https://velog.io/@hyeon930/%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0-Throttling)
+  - [throttle 구현](https://pewww.tistory.com/9?category=750230)
+
+- wheel event를 200ms에 한번은 꼭 실행하게 하기
+  ```javascript
+  const throttling = (fn, waits) => {
+      let throttleCheck = null; // 처음에 false로 생성
+
+      return (...args) => {
+        if (!throttleCheck) {
+          console.log("wheel event 동작하는 것");
+          // false이면 setTimeout을 설정할 수 있다. 그다음에는 throttle은 뭔가를 가리키고 있다.
+          // 그러고 나서 event가 발생하는 동안은 이 if block안에 못들어와서 이걸 실행할 수가 없다.
+          // 얘가 끝나야 다시 새로운 동작을 등록할 수 있다. 그리고 처음에 시작한건 지정한 시간이 지나면 한번은 실행된다.
+          // debounce는 동작이 연달아 쭉있으면 앞에껀 다 timer가 클리어되는데 반해 얘는 쭉있으면 그래도 지정한 시간만다 한번은 실행한다.
+          throttleCheck = setTimeout(() => {
+            fn(...args);
+            throttleCheck = null;
+          }, waits);
+        } else {
+          console.log("wheel event 동작안하는것");
+        }
+      };
+    };
+
+    const infiniteLoad = () => {
+      console.log("wheel event");
+    };
+    // throttle
+  const throttleWheel = throttling(infiniteLoad, 100);
+
+  <MainWrapper
+    bg={"https://picsum.photos/seed/picsum/1000/400/?blur"}
+    onWheel={(e) => {
+      throttleWheel();
+    }}
+  >
+  ```
+ 
+  - Wheel 이벤트가 발생할때 적어도 200ms 한번은 지금 현재 위치가 어딘지 체크해서 리스트를 추가적으로 더 보여줄지 결정하려고 한다. onWheel이벤트는 이전처럼 계속 실행을 하는데 throttleWheel 내에서 200ms마다 내가 실행하고자하던 함수를 실행하도록 했다. 
+  
+  ```javascript
+  const infiniteLoad = () => {
+    const totalHeight = document.documentElement.offsetHeight; // 현재 문서의 전체 높이(가려진것도 다 포함)
+    const hiddenHeight = document.documentElement.scrollTop; // 위에 스크롤해서 가려진 부분의 높이, 즉 내가 스크롤해서 가려진 부분의 높이
+    const clientHeight = document.documentElement.clientHeight; // 현재 화면의 높이
+    const check = hiddenHeight + clientHeight; // 그래서 즉, 가려진 높이(hiddenHeight)와 현재 화면의 높이를 합하면 현재 문서의 전체 높이가된다.
+    // 즉 그래서 스크롤을 끝까지 하면 문서크기랑 check가 같아진다.
+    // 그래서 문서의 전체 높이보다 조금작을때까지 보다 커지면, 즉 스크롤 쭉해서 완전 바닥까지 다 내리기 직전에 listCount를 하나 증가시켜서 새로운 list를 그려준다.
+    if (check > totalHeight - listHeight * 3) {
+      console.log("load more");
+      setListCount((listCount) => listCount + 1);
+    }
+  };
+  ```
+
+  `infiniteLoad`는 무한히 로드를 하는 함수로, wheel event가 동작할때 `문서의 전체 높이 - 리스트의 높이 * n`와 `스크롤한 높이 + 현재 화면의 높이`를 비교해서 `스크롤한 높이 + 현재 화면의 높이`가 더크면 listCount를 증가시켜서 보이는 list를 추가해서 그려준다. 
+
+  이때 `InfiniteContents`라는 컴포넌트는 listCount를 props로 받고 `getContents`라는 함수를 통해서 무한히 컨텐츠를 가져오도록 구현했다. 
+
+  ```javascript
+  const getContents = () => {
+    let index = 0;
+    return () => {
+      index += 1;
+      if (index > 32) {
+        index = 33;
+      }
+      return contents[index];
+    };
+  };
+  const InfiniteContents = ({ listCount }) => {
+    const contentsGenerator = getContents();
+    /// 계속
+  ```
+
+  이렇게 contents라는 json 객체에서 데이터를 읽어오되 32개 이후로는 계속 똑같이 33번째 객체를 읽어온다. 
+
+  ```
+  /// json data 일부
+  32: {
+    name: "Bingeworthy International TV Shows",
+    length: 10,
+  },
+  33: {
+    name: "Inifinte Scroll",
+    length: 10,
+  },
+  ```
+  - 실행화면
+
+    <img src="./assets/9.png">
+    
+    처음 로드하면 컨텐츠가 보인다. 
 
 
+    <img src="./assets/10.png">
+
+    스크롤이벤트가 발생하면 200ms한번은 높이를 확인하고, 경우에 따라 새로운 리스트를 추가해서 보여주고, 무한히 스크롤하면 데이터를 가지고 온다. 
+
+  - 정리하면: throttle기법을 통해서 wheel event가 연속적으로 발생하더라고, 적어도 200ms에 한번은 실행하도록 했고, 이때 높이 조건에 따라 list를 추가적으로 보이도록 구현했다. 
 
 3. 이미지 좌우 스크롤 시 IntersectionObserver API 통해서 lazy loading 하기(안보는 이미지는 굳이 왜불러)
     <img src="./assets/7.png">

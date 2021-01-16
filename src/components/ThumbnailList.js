@@ -51,16 +51,16 @@ function ThumbnailList({ name, length, loadImgCount }) {
       <ListTitle>{name}</ListTitle>
       <ListWrapper
         ref={imgs}
-        onScroll={(e) => {
-          e.stopPropagation();
-          // console.log(
-          //   "scroll 이벤트가 발생하고 있습나다요~~",
-          //   e.target,
-          //   e.currentTarget
-          // );
+        // onScroll={(e) => {
+        //   e.stopPropagation();
+        //   // console.log(
+        //   //   "scroll 이벤트가 발생하고 있습나다요~~",
+        //   //   e.target,
+        //   //   e.currentTarget
+        //   // );
 
-          // 여기서 새로운 영역에 해당이 되면(늘어나면) setLoadImageCount를 늘려준다.
-        }}
+        //   // 여기서 새로운 영역에 해당이 되면(늘어나면) setLoadImageCount를 늘려준다.
+        // }}
       >
         {Array(length)
           .fill("img")
