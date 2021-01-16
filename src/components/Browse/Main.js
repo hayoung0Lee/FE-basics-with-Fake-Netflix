@@ -3,6 +3,8 @@
 // 아니면 프로파일 선택 창 선택하고 로컬스토리지 업데이트
 import styled from "styled-components";
 import ThumbnailList from "../ThumbnailList";
+import InfiniteContents from "./InfiniteContents";
+import { useState, useRef } from "react";
 
 const MainWrapper = styled.div`
   margin-left: auto;
@@ -17,20 +19,52 @@ const MainWrapper = styled.div`
 `;
 
 function Main() {
+  const [listCount, setListCount] = useState(2);
+  const main = useRef();
+  const throttling = (fn, waits) => {
+    let throttleCheck = null; // 처음에 false로 생성
+
+    return (...args) => {
+      if (!throttleCheck) {
+        console.log("wheel event 동작하는 것");
+        // false이면 setTimeout을 설정할 수 있다. 그다음에는 throttle은 뭔가를 가리키고 있다.
+        // 그러고 나서 event가 발생하는 동안은 이 if block안에 못들어와서 이걸 실행할 수가 없다.
+        // 얘가 끝나야 다시 새로운 동작을 등록할 수 있다. 그리고 처음에 시작한건 지정한 시간이 지나면 한번은 실행된다.
+        // debounce는 동작이 연달아 쭉있으면 앞에껀 다 timer가 클리어되는데 반해 얘는 쭉있으면 그래도 지정한 시간만다 한번은 실행한다.
+        throttleCheck = setTimeout(() => {
+          fn(...args);
+          throttleCheck = null;
+        }, waits);
+      } else {
+        console.log("wheel event 동작안하는것");
+      }
+    };
+  };
+
+  // console.log("window", window.innerHeight, window.scrollY);
+  const listHeight = 148;
+  const infiniteLoad = () => {
+    const totalHeight = document.documentElement.offsetHeight; // 현재 문서의 전체 높이(가려진것도 다 포함)
+    const hiddenHeight = document.documentElement.scrollTop; // 위에 스크롤해서 가려진 부분의 높이, 즉 내가 스크롤해서 가려진 부분의 높이
+    const clientHeight = document.documentElement.clientHeight; // 현재 화면의 높이
+    const check = hiddenHeight + clientHeight; // 그래서 즉, 가려진 높이(hiddenHeight)와 현재 화면의 높이를 합하면 현재 문서의 전체 높이가된다.
+    // 즉 그래서 스크롤을 끝까지 하면 문서크기랑 check가 같아진다.
+    // 그래서 문서의 전체 높이보다 조금작을때까지 보다 커지면, 즉 스크롤 쭉해서 완전 바닥까지 다 내리기 직전에 listCount를 하나 증가시켜서 새로운 list를 그려준다.
+    if (check > totalHeight - listHeight * 3) {
+      console.log("load more");
+      setListCount((listCount) => listCount + 1);
+    }
+  };
+  // throttle
+  const throttleWheel = throttling(infiniteLoad, 200);
+
   return (
     <>
       <MainWrapper
+        ref={main}
         bg={"https://picsum.photos/seed/picsum/1000/400/?blur"}
         onWheel={(e) => {
-          if (e.target !== e.currentTarget) {
-            // console.log("test", e.target, e.currentTarget);
-            return false;
-          }
-          console.log(
-            "wheel event가 발생하고 있습니다 나으리",
-            e.target,
-            e.currentTarget
-          );
+          throttleWheel();
         }}
       >
         {/* loadCount는 각 리스트 내에서 이미지가 몇개 보일지 체크 */}
@@ -41,48 +75,7 @@ function Main() {
         />
         <ThumbnailList name="My List" length={18} loadImgCount={6} />
         <ThumbnailList name="Trending Now" length={10} loadImgCount={6} />
-        {/* <ThumbnailList name="US TV Series" length={10} />
-        <ThumbnailList name="Popular On Netflix" length={10} />
-        <ThumbnailList name="Suspenseful International TV shows" length={10} />
-        <ThumbnailList name="Made in Korea" length={10} />
-        <ThumbnailList name="Netflix Originals" length={10} />
-        <ThumbnailList name="New Releases" length={10} />
-        <ThumbnailList name="International TV Dramas" length={10} />
-        <ThumbnailList name="Crime Docuseries" length={10} />
-        <ThumbnailList name="International TV Comedies" length={10} />
-        <ThumbnailList name="Real Stories" length={10} />
-        <ThumbnailList name="Internatiopnal TV Shows" length={10} />
-        <ThumbnailList
-          name="Award-Winning International TV Shows"
-          length={10}
-        />
-        <ThumbnailList name="Critically Acclaimed Films" length={10} />
-        <ThumbnailList
-          name="International Police Detective TV Dramas"
-          length={10}
-        />
-        <ThumbnailList name="Children &amp; Family TV" length={10} />
-        <ThumbnailList name="Youth TV Dramas" length={10} />
-        <ThumbnailList name="Top Picks for" length={10} />
-        <ThumbnailList name="Award-Winning TV dramas" length={10} />
-        <ThumbnailList name="Documentaries" length={10} />
-        <ThumbnailList name="Critically Acclaimed US TV shows" length={10} />
-        <ThumbnailList name="International TV starring Women" length={10} />
-        <ThumbnailList name="Supernatural TV Shows" length={10} />
-        <ThumbnailList name="Award-Winning TV Shows" length={10} />
-        <ThumbnailList name="US TV Shows" length={10} />
-        <ThumbnailList name="US TV Shows" length={10} />
-        <ThumbnailList name="Exciting TV Shows" length={10} />
-        <ThumbnailList name="Ensemble TV Shows" length={10} />
-        <ThumbnailList name="Korean TV Shows" length={10} />
-        <ThumbnailList name="Provacative Interntional TV Shows" length={10} />
-        <ThumbnailList name="Emmy-winning International TV Shows" length={10} />
-        <ThumbnailList name="Children &amp; Family Novies" length={10} />
-        <ThumbnailList name="Suspenseful TV Shows" length={10} />
-        <ThumbnailList name="TV Shows Based on Books" length={10} />
-        <ThumbnailList name="British TV Shows" length={10} />
-        <ThumbnailList name="TV Shows" length={10} />
-        <ThumbnailList name="Bingeworthy International TV Shows" length={10} /> */}
+        <InfiniteContents listCount={listCount} />
       </MainWrapper>
     </>
   );
