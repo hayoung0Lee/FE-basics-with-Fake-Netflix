@@ -62,7 +62,7 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
   이제 이를 바탕으로 필요한 이미지만 로드 할 수 있도록 하고, 무한 로딩은 필요한건 아닌데 한번 넣어보고 싶다. 
 
 
-## 3단계 Debounce와 Throttling
+## 3단계 Debounce와 Throttling(Lazy loading)
 - [참고한 제로초 님의 블로그](https://www.zerocho.com/category/JavaScript/post/59a8e9cb15ac0000182794fa)
   
 - 검색할때 검색이 끝나면 결과를 보이도록만들기(Debounce, Throttle)
@@ -76,6 +76,7 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
   - 스크롤을 debounce로하면 계속 뭔가 타이머가 리셋이 되가지규, 그냥 스크롤을 쭉하면 다 움직이고 멈춰야만 어떤 동작을 실행하는데, throttling을 해야 적어도 지정한 시간에 한번은 실행하는거다. 
 
 
+1. Debounce 사용하기 
 - Debounce를 이용해서 Search 기능을 만들기: [debounce 구현하기 예제](https://jungdujang.medium.com/javascript-debounce-%EA%B5%AC%ED%98%84-%ED%95%98%EA%B8%B0-4838b7f7efcf)
   - debounce는 closure를 이용해서 구현한다. 
   - promise가 없는 버전
@@ -184,14 +185,59 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
   그러면 searchView로 리다이렉트 하거나, 글자가 하나도 없으면 browse화면으로 redirect한다.
 
 
-
-- Throttling을 통해서 무한 스크롤 만들어보기(더 좋은 방법도 공부하기)
+2. Throttling 구현하기 
+- throttling을 통해서 상하로 무한 스크롤 하는것을 구현하기 
+- 무한 스크롤 만들어보기(더 좋은 방법도 공부하기)
   - [Javascript - 디바운싱, 쓰로틀링](https://zinirun.github.io/2020/08/16/js-throttling-debouncing/)
   - [무한 스크롤 만들기](https://velog.io/@hyeon930/%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4-%EB%A7%8C%EB%93%A4%EA%B8%B0-Throttling)
 
 
 
-- react router 관련: https://jeonghwan-kim.github.io/dev/2019/07/08/react-router-ts.html
+3. 이미지 좌우 스크롤 시 IntersectionObserver API 통해서 lazy loading 하기(안보는 이미지는 굳이 왜불러)
+    <img src="./assets/7.png">
+
+    이런 스크롤 메뉴가 있다. 이때 무조건 보이는 앞에 6개는 부를때 불러주고, 나머지는 스크롤하면 그때서야 이미지를 로드해오고자 한다(실제로는 더 여유롭게 불러올것 같긴하다!) 그리고 처음에 안보이는 리스트들도 img를 로드하지 않도록 했다. 
+
+    - 우선 메인 페이지를 처음 로드했을때 안보이는 부분은 img를 로드하지 않도록 화면을 구성했다. 
+      
+      <img src="./assets/8.png">
+
+    - 코드
+    ```javascript
+    function ThumbnailList({ name, length, loadImgCount }) {
+      const [loadImageCount, setLoadImageCount] = useState(loadImgCount);
+      const imgs = useRef();
+
+      const callBack = (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setLoadImageCount((loadImageCount) => loadImageCount + 1);
+            observer.unobserve(entry.target);
+          }
+        });
+      };
+
+      useEffect(() => {
+        const childImgs = imgs.current.children;
+        const io = new IntersectionObserver(callBack);
+        let idx = 0;
+        for (let child of childImgs) {
+          if (idx >= loadImageCount) {
+            io.observe(child);
+          }
+          idx += 1;
+        }
+        // eslint-disable-next-line
+      }, []);
+    ```
+      해당 API를 통하면 언제 화면에 특정 컴포넌트가 보이는지를 쉽게 알 수 있다. 그래서 특정 컴포넌트가 화면에 보이면 loadImageCount를 증가시켜서, Thumbnail 컴포넌트에서 image를 로드하도록 처리했다.
+   
+
+
+
+
+
+
 
 
 <!-- 
@@ -223,6 +269,8 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
 
 ## 끝나고 더 공부할것
 1. [react-router](https://reactrouter.com/web/api/Redirect/to-string):  추가 공부하기
+
+
 ## 참고한 문서
 ### create react app docs
 - [what is public folder](https://create-react-app.dev/docs/using-the-public-folder/)

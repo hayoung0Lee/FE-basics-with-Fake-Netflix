@@ -13,22 +13,35 @@ const MainWrapper = styled.div`
   width: 90%;
   background: url(${(props) => props.bg}) no-repeat top center;
   background-size: 100%;
+  background-color: red;
 `;
 
 function Main() {
   return (
     <>
-      {/* <div>
-        <img
-          src="https://picsum.photos/seed/picsum/1000/400/?blur"
-          width="100%"
+      <MainWrapper
+        bg={"https://picsum.photos/seed/picsum/1000/400/?blur"}
+        onWheel={(e) => {
+          if (e.target !== e.currentTarget) {
+            // console.log("test", e.target, e.currentTarget);
+            return false;
+          }
+          console.log(
+            "wheel event가 발생하고 있습니다 나으리",
+            e.target,
+            e.currentTarget
+          );
+        }}
+      >
+        {/* loadCount는 각 리스트 내에서 이미지가 몇개 보일지 체크 */}
+        <ThumbnailList
+          name="Continue Watching for"
+          length={20}
+          loadImgCount={6}
         />
-      </div> */}
-      <MainWrapper bg={"https://picsum.photos/seed/picsum/1000/400/?blur"}>
-        <ThumbnailList name="Continue Watching for" length={8} />
-        <ThumbnailList name="My List" length={8} />
-        <ThumbnailList name="Trending Now" length={10} />
-        <ThumbnailList name="US TV Series" length={10} />
+        <ThumbnailList name="My List" length={18} loadImgCount={6} />
+        <ThumbnailList name="Trending Now" length={10} loadImgCount={6} />
+        {/* <ThumbnailList name="US TV Series" length={10} />
         <ThumbnailList name="Popular On Netflix" length={10} />
         <ThumbnailList name="Suspenseful International TV shows" length={10} />
         <ThumbnailList name="Made in Korea" length={10} />
@@ -69,7 +82,7 @@ function Main() {
         <ThumbnailList name="TV Shows Based on Books" length={10} />
         <ThumbnailList name="British TV Shows" length={10} />
         <ThumbnailList name="TV Shows" length={10} />
-        <ThumbnailList name="Bingeworthy International TV Shows" length={10} />
+        <ThumbnailList name="Bingeworthy International TV Shows" length={10} /> */}
       </MainWrapper>
     </>
   );

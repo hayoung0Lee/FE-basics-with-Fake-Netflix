@@ -5,12 +5,45 @@ const ThumnailImg = styled.div`
   border-radius: 3px;
   overflow: hidden;
   width: 230px;
+  height: 120px;
 `;
-function Thumbnail() {
+
+const ImgWrapper = styled.div`
+  background-color: grey;
+  width: 230px;
+  height: 120px;
+`;
+
+function Thumbnail({ index, isLoaded }) {
+  // 위에서 어떤 조건이든 내려줘서 isLoaded 가 true면 로드해주고 아니면 일단 대기 시킨다(리소스 낭비는 나빠요!)
+  if (isLoaded) {
+    return (
+      <div>
+        <ThumnailImg>
+          <ImgWrapper>
+            <img
+              src="https://picsum.photos/230/120/?blur"
+              alt={`img ${index}`}
+              width="230"
+              height="120"
+            />
+          </ImgWrapper>
+        </ThumnailImg>
+      </div>
+    );
+  }
+
   return (
     <div>
       <ThumnailImg>
-        <img src="https://picsum.photos/230/120/?blur" alt="temp" />
+        <ImgWrapper>
+          <img
+            data-src="https://picsum.photos/230/120/?blur"
+            alt={`img ${index}`}
+            width="230"
+            height="120"
+          />
+        </ImgWrapper>
       </ThumnailImg>
     </div>
   );
