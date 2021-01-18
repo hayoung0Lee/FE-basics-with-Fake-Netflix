@@ -365,6 +365,18 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
 ### 4단계 마크업을 마무리하기
 - account 페이지는 그냥 마크업 연습만 하는 정도로! -->
 
+
+4. [useContext로 상태관리 한번 해보기](https://reactjs.org/docs/hooks-reference.html#usecontext)
+
+`provider가 없으면 defaultValue를 사용한다`
+
+
+### 공부더할 것
+- [Virtual List](memo/VirtualList.md)
+- [Justified Layout](memo/JustifiedLayout.md)
+- [Repaint vs Reflow](memo/RepainAndReflow.md)
+
+
 ## 끝나고 더 공부할것
 1. [react-router](https://reactrouter.com/web/api/Redirect/to-string):  추가 공부하기
 

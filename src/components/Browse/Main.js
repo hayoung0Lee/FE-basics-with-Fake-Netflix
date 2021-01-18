@@ -4,7 +4,10 @@
 import styled from "styled-components";
 import ThumbnailList from "../ThumbnailList";
 import InfiniteContents from "./InfiniteContents";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import throttling from "../../utils/throttle";
+import Store from "../../utils/store";
+import bg from "../../utils/bg.webp";
 
 const MainWrapper = styled.div`
   margin-left: auto;
@@ -13,33 +16,18 @@ const MainWrapper = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   width: 90%;
-  background: url(${(props) => props.bg}) no-repeat top center;
+  height: 300px;
+  background-color: grey;
+  background: url(${bg}) no-repeat top center;
   background-size: 100%;
-  background-color: red;
 `;
 
 function Main() {
+  // eslint-disable-next-line
+  const [scroll, setScorll] = useContext(Store).scroll;
+
   const [listCount, setListCount] = useState(2);
   const main = useRef();
-  const throttling = (fn, waits) => {
-    let throttleCheck = null; // 처음에 false로 생성
-
-    return (...args) => {
-      if (!throttleCheck) {
-        console.log("wheel event 동작하는 것");
-        // false이면 setTimeout을 설정할 수 있다. 그다음에는 throttle은 뭔가를 가리키고 있다.
-        // 그러고 나서 event가 발생하는 동안은 이 if block안에 못들어와서 이걸 실행할 수가 없다.
-        // 얘가 끝나야 다시 새로운 동작을 등록할 수 있다. 그리고 처음에 시작한건 지정한 시간이 지나면 한번은 실행된다.
-        // debounce는 동작이 연달아 쭉있으면 앞에껀 다 timer가 클리어되는데 반해 얘는 쭉있으면 그래도 지정한 시간만다 한번은 실행한다.
-        throttleCheck = setTimeout(() => {
-          fn(...args);
-          throttleCheck = null;
-        }, waits);
-      } else {
-        console.log("wheel event 동작안하는것");
-      }
-    };
-  };
 
   // console.log("window", window.innerHeight, window.scrollY);
   const listHeight = 148;
@@ -51,9 +39,11 @@ function Main() {
     // 즉 그래서 스크롤을 끝까지 하면 문서크기랑 check가 같아진다.
     // 그래서 문서의 전체 높이보다 조금작을때까지 보다 커지면, 즉 스크롤 쭉해서 완전 바닥까지 다 내리기 직전에 listCount를 하나 증가시켜서 새로운 list를 그려준다.
     if (check > totalHeight - listHeight * 3) {
-      console.log("load more");
       setListCount((listCount) => listCount + 1);
     }
+
+    // 현재 스크롤로 가려진 부분의 높이
+    setScorll(hiddenHeight);
   };
   // throttle
   const throttleWheel = throttling(infiniteLoad, 200);
@@ -62,7 +52,6 @@ function Main() {
     <>
       <MainWrapper
         ref={main}
-        bg={"https://picsum.photos/seed/picsum/1000/400/?blur"}
         onWheel={(e) => {
           throttleWheel();
         }}

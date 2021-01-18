@@ -13,14 +13,19 @@ const SearchViewStyle = styled.div`
   margin-left: auto;
   margin-right: auto;
   width: 90%;
-  border: 1px solid white;
-  background-color: white;
+  color: grey;
 `;
 
 function SearchView() {
   let query = useQuery();
 
-  return <SearchViewStyle>search: {query.get("q")}</SearchViewStyle>;
+  return (
+    <SearchViewStyle>
+      <div>
+        <span>Expore titles related to: {query.get("q")}</span>
+      </div>
+    </SearchViewStyle>
+  );
 }
 
 export default SearchView;

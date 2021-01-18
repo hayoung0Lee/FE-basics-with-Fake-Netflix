@@ -2,8 +2,9 @@ import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Main from "./Main";
 import Genre from "./Genre";
 
-function Browses() {
+function Browses({ props }) {
   let match = useRouteMatch();
+
   return (
     <Switch>
       <Route path={`${match.path}browse/genre/:id`}>
