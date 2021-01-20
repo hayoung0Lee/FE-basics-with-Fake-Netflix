@@ -330,12 +330,67 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
     ```
       해당 API를 통하면 언제 화면에 특정 컴포넌트가 보이는지를 쉽게 알 수 있다. 그래서 특정 컴포넌트가 화면에 보이면 loadImageCount를 증가시켜서, Thumbnail 컴포넌트에서 image를 로드하도록 처리했다.
    
+4. [useContext로 상태관리 한번 해보기](https://reactjs.org/docs/hooks-reference.html#usecontext)
+
+`provider가 없으면 defaultValue를 사용한다`
+
+
+
+## 4단계 Search 화면 구현하기
+Debounce를 통해 연달아 타이핑 하는 경우에 event가 더이상 발생하지 않는 순간에 search페이지로 이동하도록 했다. 이 화면을 이제 채워 보려고 한다. 
+
+1. [Virtual-list 공부](./memo/VirtualList.md) 정린
+- 보이는 영역 근처로만 아이템이 그려지도록 하는 것
+
+2. [Masonry 레이아웃, Justified layout](https://d2.naver.com/helloworld/6807203)
+- Masonry(벽돌 쌓기): 
+  - 벽돌처럼 동일한 너비의 이미지를 쌓아올리는 것. 높이는 다를 수 있다. 
+  - 이미지 순서가 유지되지 않는다
+  - 완성된 레이아웃에 새로운 이미지를 추가하기 용이
+  - 원본 이미지의 가로세로비가 유지됨
+
+- Justified 레이아웃(1행의 너비에 맞게 꼭 들어찬)이라는 의미를 가진 인쇄 용어라고 한다. 한행을 기준으로 이미지가 가득 차도록 배치하는 레이아웃
+  - [line breaking알고리즘](http://blog.vjeux.com/2014/image/google-plus-layout-find-best-breaks.html) 을 응용해서 어디서 줄바꿀지를 정한다. 
+
+
+
+3. Reflow와 Repaint
+- [참고자료](https://webclub.tistory.com/346#:~:text=%EC%83%9D%EC%84%B1%EB%90%9C%20DOM%20%EB%85%B8%EB%93%9C%EC%9D%98,%EB%90%9C%20%EB%A0%8C%EB%8D%94%20%ED%8A%B8%EB%A6%AC%EB%A5%BC%20%EB%8B%A4%EC%8B%9C)
+
+- Reflow는 Dom의 레이아웃 변경에 영향을 받은 모든 노드의 수치를 다시 계산해서 렌더트리를 다시 그리는데, `Reflow`한 다음에는 `Repaint`를 한다
+  ```javascript
+    function reflow(){
+      document.getElementById('sample').style.width = '600px'
+    }
+  ```
+
+- Repaint는 스타일 중에서 레이아웃 변경이 아닌 background-color, visibility, outline등이 변경될때 `Reflow`과정은 생략하고 `Repaint`만 발생한다
+
+
+4. search 페이지는 유월이 사진으로 채우겠습니다
+- [flicker의 justified-layout](http://flickr.github.io/justified-layout/) 을 활용해서 그리기. throttle을 이용해서 Virtual-list 적용?
+
+- [virtual list 관련 보던 미디엄 글](https://medium.com/ingeniouslysimple/building-a-virtualized-list-from-scratch-9225e8bec120)
+
+
+## 5단계 프로젝트 구조 개선
+
+
+<!-- - [일상님..](https://github.com/1ilsang/never-cloud/blob/master/package.json) -->
+## 후기
 
 
 
 
 
+## ## 참고한 문서 및 끝나고 더 공부할것
+1. [react-router](https://reactrouter.com/web/api/Redirect/to-string):  추가 공부하기
 
+2. [what is public folder](https://create-react-app.dev/docs/using-the-public-folder/)
+
+3. [adding typescript](https://create-react-app.dev/docs/adding-typescript/)
+
+4. [typescript cheatsheets](https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets)
 
 
 <!-- 
@@ -364,28 +419,3 @@ react router를 통해서 간단하게 라우터를 구성했다. 해보고 다�
 
 ### 4단계 마크업을 마무리하기
 - account 페이지는 그냥 마크업 연습만 하는 정도로! -->
-
-
-4. [useContext로 상태관리 한번 해보기](https://reactjs.org/docs/hooks-reference.html#usecontext)
-
-`provider가 없으면 defaultValue를 사용한다`
-
-
-### 공부더할 것
-- [Virtual List](memo/VirtualList.md)
-- [Justified Layout](memo/JustifiedLayout.md)
-- [Repaint vs Reflow](memo/RepainAndReflow.md)
-
-
-## 끝나고 더 공부할것
-1. [react-router](https://reactrouter.com/web/api/Redirect/to-string):  추가 공부하기
-
-
-## 참고한 문서
-### create react app docs
-- [what is public folder](https://create-react-app.dev/docs/using-the-public-folder/)
-
-### react with typescript
-- [adding typescript](https://create-react-app.dev/docs/adding-typescript/)
-
-- [typescript cheatsheets](https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets)

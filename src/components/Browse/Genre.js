@@ -9,6 +9,11 @@ const EmptyViewStyle = styled.div`
   margin-right: auto;
   width: 90%;
   color: grey;
+  font-family: "Netflix Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 function Genre() {
@@ -17,10 +22,8 @@ function Genre() {
 
   return (
     <EmptyViewStyle>
-      <div>
-        <h1>Genre ID: {id}</h1>
-        <span>You are currently seeing {location.pathname} page</span>
-      </div>
+      <h1>Genre ID: {id}</h1>
+      <span>You are currently seeing {location.pathname} page</span>
     </EmptyViewStyle>
   );
 }
