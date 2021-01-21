@@ -25,11 +25,9 @@ const MainWrapper = styled.div`
 function Main() {
   // eslint-disable-next-line
   const [scroll, setScorll] = useContext(Store).scroll;
-
   const [listCount, setListCount] = useState(2);
   const main = useRef();
 
-  // console.log("window", window.innerHeight, window.scrollY);
   const listHeight = 148;
   const infiniteLoad = () => {
     const totalHeight = document.documentElement.offsetHeight; // 현재 문서의 전체 높이(가려진것도 다 포함)

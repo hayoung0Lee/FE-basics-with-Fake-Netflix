@@ -13,7 +13,7 @@ const throttling = (fn, waits) => {
         throttleCheck = null;
       }, waits);
     }
-    // else {
+    //  else {
     //   console.log("실행할게 이미 있다. 너는 무시");
     // }
   };
