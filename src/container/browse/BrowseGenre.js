@@ -3,17 +3,15 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 
-const EmptyViewStyle = styled.div`
+const BrowseGenreStyle = styled.div`
+  font-family: "Netflix Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 36px;
   margin-top: 72px;
   margin-left: auto;
   margin-right: auto;
-  width: 90%;
-  color: grey;
-  font-family: "Netflix Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  height: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  max-width: 980px;
+  height: 500px;
+  color: white;
 `;
 
 function Genre() {
@@ -21,10 +19,10 @@ function Genre() {
   const location = useLocation();
 
   return (
-    <EmptyViewStyle>
+    <BrowseGenreStyle>
       <h1>Genre ID: {id}</h1>
       <span>You are currently seeing {location.pathname} page</span>
-    </EmptyViewStyle>
+    </BrowseGenreStyle>
   );
 }
 

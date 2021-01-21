@@ -1,16 +1,16 @@
 // 헤더, 라우터 정의 하는 곳
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Header from "./Header";
-import SearchView from "./Search/SearchView";
-import Watch from "./Watch";
-import Settings from "./Settings";
-import Browses from "./Browse/Browses";
-import Store from "../utils/store";
+import Header from "./container/Header";
+import Footer from "./container/Footer";
+import SearchPage from "./container/search/Search";
+import Settings from "./container/settings/Settings";
+import Browses from "./container/browse/BrowseRoute";
+import Store from "./utils/store";
 import { useState } from "react";
 
+// 프로젝트의 전체 헤더, 푸터 설정 및 라우터 설정
 function App() {
   const [scroll, setScroll] = useState(0);
-
   return (
     <Router>
       <Store.Provider
@@ -21,10 +21,7 @@ function App() {
         <Header />
         <Switch>
           <Route path="/search">
-            <SearchView />
-          </Route>
-          <Route path="/watch">
-            <Watch />
+            <SearchPage />
           </Route>
           <Route path="/settings">
             <Settings />
@@ -34,6 +31,7 @@ function App() {
             render={({ match }) => <Browses match={match} />}
           ></Route>
         </Switch>
+        <Footer />
       </Store.Provider>
     </Router>
   );

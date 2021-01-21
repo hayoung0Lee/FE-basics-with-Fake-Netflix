@@ -1,5 +1,5 @@
 // import styled from "styled-components";
-import ThumbnailList from "../ThumbnailList";
+import ThumbnailList from "./ThumbnailList";
 
 const contents = {
   1: {

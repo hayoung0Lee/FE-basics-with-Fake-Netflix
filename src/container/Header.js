@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import SearchBtn from "./Search/SearchBtn";
+import SearchBtn from "../component/SearchBtn";
 import Store from "../utils/store";
 import { useContext } from "react";
 

@@ -370,6 +370,10 @@ Debounce를 통해 연달아 타이핑 하는 경우에 event가 더이상 발�
 4. search 페이지는 유월이 사진으로 채우겠습니다
 - [flicker의 justified-layout](http://flickr.github.io/justified-layout/) 을 활용해서 그리기. throttle을 이용해서 Virtual-list 적용?
 
+  <img src="./assets/11.png">
+
+  이미지를 내친구 고양이로 해가지구, div를 justified-layout에서 주는 스타일을 적용했다.
+
 - [virtual list 관련 보던 미디엄 글](https://medium.com/ingeniouslysimple/building-a-virtualized-list-from-scratch-9225e8bec120)
 
 

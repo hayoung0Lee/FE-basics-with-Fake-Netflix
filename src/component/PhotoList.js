@@ -1,4 +1,4 @@
-import photoData from "../assets/photo.json";
+import photoData from "../asset/photo.json";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import justifiedLayout from "justified-layout";
@@ -9,7 +9,7 @@ const LayoutStyle = styled.div`
   margin-top: 30px;
 `;
 
-const generateLayout = (photoData) => {
+const generateLayout = (photoData, targetRowHeight) => {
   // const ratio = [];
   // photoData.photo.forEach((p) => {
   //   ratio.push(p.width / 300);
@@ -55,10 +55,11 @@ const generateLayout = (photoData) => {
   return jLayout;
 };
 
-const PhotoContainerList = () => {
+const PhotoList = () => {
   const [layout, setLayout] = useState([]);
+  const targetRowHeight = 240;
   useEffect(() => {
-    setLayout(generateLayout(photoData).boxes);
+    setLayout(generateLayout(photoData, targetRowHeight).boxes);
   }, []);
 
   if (!layout) {
@@ -100,4 +101,4 @@ const PhotoContainerList = () => {
   );
 };
 
-export default PhotoContainerList;
+export default PhotoList;
