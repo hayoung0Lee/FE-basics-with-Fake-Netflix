@@ -1,14 +1,16 @@
 import photoData from "../asset/photo.json";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import justifiedLayout from "justified-layout";
 import throttling from "../utils/throttle";
+import Store from "../utils/store";
 
 const LayoutStyle = styled.div`
   width: 1060px;
   margin: auto;
   margin-top: 30px;
   position: relative;
+  height: 100%;
 `;
 
 const generateLayout = (photoData, targetRowHeight) => {
@@ -60,7 +62,6 @@ const generateBreakPointWithHeight = (list) => {
   const breakedList = [[{ position: prev, index: index++ }]];
 
   for (const el of iter) {
-    console.log(el);
     if (prev.top !== el.top) {
       breakedList.push([{ position: el, index: index++ }]);
       prev = el;
@@ -75,35 +76,46 @@ const generateBreakPointWithHeight = (list) => {
   return breakedList;
 };
 
-const getVisibleList = (list) => {
+const getVisibleList = (list, hiddenHeight) => {
   const visibleList = [];
   // visible 범위 를 구해서 해당하는것만 그리기
-  const iter = list[Symbol.iterator]();
+  const itemHeight = 500;
+  const startIndex = 0 + Math.floor((hiddenHeight + 68) / itemHeight);
+  const endIndex = 4 + Math.floor((hiddenHeight + 68) / itemHeight);
 
-  iter.next();
-  iter.next();
-  for (const el of iter) {
-    visibleList.push(...el);
+  // const iter = list[Symbol.iterator]();
+  // for (const el of iter) {
+  //   visibleList.push(...el);
+  // }
+
+  console.log(startIndex, endIndex);
+  for (let i = startIndex; i < endIndex && i < list.length; i++) {
+    visibleList.push(...list[i]);
   }
-
-  console.log("visible", visibleList);
   return visibleList;
 };
 
 const PhotoList = () => {
-  const targetRowHeight = 300;
+  // eslint-disable-next-line
+  const [scroll, setScorll] = useContext(Store).scroll;
+  const targetRowHeight = 500;
   const [layout, setLayout] = useState([]);
   const [breakedList, setBreakedList] = useState([]);
   const [visibleList, setVisibleList] = useState(null);
 
-  const throttleWheel = throttling(() => console.log("wheel event"), 200);
+  const throttleWheel = throttling(() => {
+    const hiddenHeight = document.documentElement.scrollTop; // 위에 스크롤해서 가려진 부분의 높이, 즉 내가 스크롤해서 가려진 부분의 높이
+    setVisibleList(getVisibleList(breakedList, hiddenHeight));
+    setScorll(hiddenHeight);
+  }, 500);
 
   useEffect(() => {
     const generatedLayout = generateLayout(photoData, targetRowHeight).boxes;
     setLayout(generatedLayout);
     const breakedList = generateBreakPointWithHeight(generatedLayout);
     setBreakedList(breakedList);
-    setVisibleList(getVisibleList(breakedList));
+    const hiddenHeight = document.documentElement.scrollTop;
+    setVisibleList(getVisibleList(breakedList, hiddenHeight));
     // eslint-disable-next-line
   }, []);
 
@@ -117,35 +129,6 @@ const PhotoList = () => {
         throttleWheel();
       }}
     >
-      {/* {photoData?.photo.map((p, index) => {
-        return (
-          <div
-            key={index}
-            style={{
-              ...layout[index],
-              backgroundColor: "rgba(255,255,255,0.95)",
-              outline: "1px solid black",
-              display: "inline-flex",
-              overflow: "hidden",
-              verticalAlign: "middle",
-              // boxSizing: "border-box",
-            }}
-          >
-            <img
-              key={index}
-              alt={index}
-              src={`${process.env.PUBLIC_URL}/${p.url}`}
-              style={{
-                verticalAlign: "middle",
-                maxWidth: "100%",
-                maxHeight: "100%",
-                margin: "auto",
-                display: "block",
-              }}
-            />
-          </div>
-        );
-      })} */}
       {visibleList.map((p, index) => {
         return (
           <div
@@ -158,7 +141,6 @@ const PhotoList = () => {
               display: "inline-flex",
               overflow: "hidden",
               verticalAlign: "middle",
-              // boxSizing: "border-box",
             }}
           >
             <img

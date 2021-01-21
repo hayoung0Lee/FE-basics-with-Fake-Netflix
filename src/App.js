@@ -12,28 +12,30 @@ import { useState } from "react";
 function App() {
   const [scroll, setScroll] = useState(0);
   return (
-    <Router>
-      <Store.Provider
-        value={{
-          scroll: [scroll, setScroll],
-        }}
-      >
-        <Header />
-        <Switch>
-          <Route path="/search">
-            <SearchPage />
-          </Route>
-          <Route path="/settings">
-            <Settings />
-          </Route>
-          <Route
-            path="/*"
-            render={({ match }) => <Browses match={match} />}
-          ></Route>
-        </Switch>
-        <Footer />
-      </Store.Provider>
-    </Router>
+    <>
+      <Router>
+        <Store.Provider
+          value={{
+            scroll: [scroll, setScroll],
+          }}
+        >
+          <Header />
+          <Switch>
+            <Route path="/search">
+              <SearchPage />
+            </Route>
+            <Route path="/settings">
+              <Settings />
+            </Route>
+            <Route
+              path="/*"
+              render={({ match }) => <Browses match={match} />}
+            ></Route>
+          </Switch>
+        </Store.Provider>
+      </Router>
+      <Footer />
+    </>
   );
 }
 

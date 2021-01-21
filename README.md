@@ -376,6 +376,9 @@ Debounce를 통해 연달아 타이핑 하는 경우에 event가 더이상 발�
 
 - [virtual list 관련 보던 미디엄 글](https://medium.com/ingeniouslysimple/building-a-virtualized-list-from-scratch-9225e8bec120)
 
+- [Do you know what a virtual list is](https://dev.to/rtorr/do-you-know-what-a-virtual-list-is-2e4e?signin=true)
+  - 트위터처럼 엄청나게 많은 글들을 렌더링 해야할때, 어차피 위에것들을 유지하는게 나중에는 필요없어진다. 그래서 일정 부분만 렌더링하는 최적화가 필요한 것이라고 한다. 
+
 
 ## 5단계 프로젝트 구조 개선
 

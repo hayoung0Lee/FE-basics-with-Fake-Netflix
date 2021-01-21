@@ -16,6 +16,7 @@ const HeaderWrap = styled.div`
   padding-left: 5%;
   padding-right: 5%;
   position: fixed;
+  z-index: 100;
   background-image: ${(props) =>
     props.scroll < 15
       ? `linear-gradient(
