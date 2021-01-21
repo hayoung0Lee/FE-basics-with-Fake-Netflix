@@ -1,6 +1,6 @@
 import { Switch, Route, useRouteMatch } from "react-router-dom";
-import Main from "./Main";
-import Genre from "./Genre";
+import Main from "./BrowseMain";
+import Genre from "./BrowseGenre";
 
 function Browses({ props }) {
   let match = useRouteMatch();
@@ -12,9 +12,6 @@ function Browses({ props }) {
       </Route>
       <Route path={`${match.path}browse`}>
         <Main />
-      </Route>
-      <Route path={`${match.path}genre/:id`}>
-        <Genre />
       </Route>
       <Route path={match.path}>
         <Main />

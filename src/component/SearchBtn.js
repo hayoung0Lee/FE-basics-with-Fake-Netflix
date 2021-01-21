@@ -1,6 +1,6 @@
 import { Redirect } from "react-router-dom";
 import { useState } from "react";
-import debounce from "../../utils/debounce";
+import debounce from "../utils/debounce";
 
 function SearchBtn() {
   const [searchWord, setSearchWord] = useState("");

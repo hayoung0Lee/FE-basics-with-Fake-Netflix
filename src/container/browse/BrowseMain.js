@@ -2,8 +2,8 @@
 // 프로파일을 선택했으면 리스트를 보여주고
 // 아니면 프로파일 선택 창 선택하고 로컬스토리지 업데이트
 import styled from "styled-components";
-import ThumbnailList from "../ThumbnailList";
-import InfiniteContents from "./InfiniteContents";
+import ThumbnailList from "../../component/ThumbnailList";
+import InfiniteContents from "../../component/InfiniteContents";
 import { useState, useRef, useContext } from "react";
 import throttling from "../../utils/throttle";
 import Store from "../../utils/store";
@@ -25,11 +25,9 @@ const MainWrapper = styled.div`
 function Main() {
   // eslint-disable-next-line
   const [scroll, setScorll] = useContext(Store).scroll;
-
   const [listCount, setListCount] = useState(2);
   const main = useRef();
 
-  // console.log("window", window.innerHeight, window.scrollY);
   const listHeight = 148;
   const infiniteLoad = () => {
     const totalHeight = document.documentElement.offsetHeight; // 현재 문서의 전체 높이(가려진것도 다 포함)
