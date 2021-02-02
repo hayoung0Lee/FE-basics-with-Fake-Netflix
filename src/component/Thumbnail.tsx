@@ -14,7 +14,12 @@ const ImgWrapper = styled.div`
   height: 120px;
 `;
 
-function Thumbnail({ index, isLoaded }) {
+type Props = {
+  index: any,
+  isLoaded: any,
+}
+
+const Thumbnail: React.FC<Props>  = ({ index, isLoaded }: Props) => {
   // 위에서 어떤 조건이든 내려줘서 isLoaded 가 true면 로드해주고 아니면 일단 대기 시킨다(리소스 낭비는 나빠요!)
   if (isLoaded) {
     return (

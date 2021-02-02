@@ -458,3 +458,21 @@ const getVisibleList = (list, hiddenHeight) => {
 
 ### 4단계 마크업을 마무리하기
 - account 페이지는 그냥 마크업 연습만 하는 정도로! -->
+
+
+
+## [typescript 설정](https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/)
+
+- volta pin node yarn
+
+- yarn add typescript
+- yarn add -D @types/node @types/react @types/react-dom @types/jest @types/justified-layout @types/react-router-dom @types/styled-components
+
+- yarn tsc --init
+
+- [tsconfig 설정](https://www.sitepoint.com/react-with-typescript-best-practices/)
+
+- 17 버전 이상에서 react import 관련에러: https://stackoverflow.com/questions/64656055/react-refers-to-a-umd-global-but-the-current-file-is-a-module/64677253
+```
+"jsx": "react-jsx",
+```
