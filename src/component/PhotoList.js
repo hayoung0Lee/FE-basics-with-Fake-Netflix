@@ -124,41 +124,43 @@ const PhotoList = () => {
     }
 
     return (
-        <LayoutStyle
-            onWheel={(e) => {
-                throttleWheel();
-            }}
-        >
-            {visibleList.map((p, index) => {
-                return (
-                    <div
-                        key={index}
-                        style={{
-                            position: 'absolute',
-                            ...p.position,
-                            backgroundColor: 'rgba(255,255,255,0.95)',
-                            outline: '1px solid black',
-                            display: 'inline-flex',
-                            overflow: 'hidden',
-                            verticalAlign: 'middle',
-                        }}
-                    >
-                        <img
+        <>
+            <LayoutStyle
+                onWheel={(e) => {
+                    throttleWheel();
+                }}
+            >
+                {visibleList.map((p, index) => {
+                    return (
+                        <div
                             key={index}
-                            alt={index}
-                            src={`${process.env.PUBLIC_URL}/${photoData.photo[p.index].url}`}
                             style={{
+                                position: 'absolute',
+                                ...p.position,
+                                backgroundColor: 'rgba(255,255,255,0.95)',
+                                outline: '1px solid black',
+                                display: 'inline-flex',
+                                overflow: 'hidden',
                                 verticalAlign: 'middle',
-                                maxWidth: '100%',
-                                maxHeight: '100%',
-                                margin: 'auto',
-                                display: 'block',
                             }}
-                        />
-                    </div>
-                );
-            })}
-        </LayoutStyle>
+                        >
+                            <img
+                                key={index}
+                                alt={index}
+                                src={`${process.env.PUBLIC_URL}/${photoData.photo[p.index].url}`}
+                                style={{
+                                    verticalAlign: 'middle',
+                                    maxWidth: '100%',
+                                    maxHeight: '100%',
+                                    margin: 'auto',
+                                    display: 'block',
+                                }}
+                            />
+                        </div>
+                    );
+                })}
+            </LayoutStyle>
+        </>
     );
 };
 

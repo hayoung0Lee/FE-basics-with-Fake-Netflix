@@ -1,3 +1,4 @@
+// import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const ThumnailImg = styled.div`
@@ -14,13 +15,17 @@ const ImgWrapper = styled.div`
     height: 120px;
 `;
 
-type Props = {
-    index: any;
-    isLoaded: any;
-};
+interface ThumbnailParams {
+    index: number;
+    isLoaded: boolean;
+}
 
-const Thumbnail: React.FC<Props> = ({ index, isLoaded }: Props) => {
+const Thumbnail: React.FC<ThumbnailParams> = ({ index, isLoaded }: ThumbnailParams) => {
     // 위에서 어떤 조건이든 내려줘서 isLoaded 가 true면 로드해주고 아니면 일단 대기 시킨다(리소스 낭비는 나빠요!)
+    // useEffect(() => {
+    //     console.log('state change!!');
+    // }, [isLoaded]);
+
     if (isLoaded) {
         return (
             <div>

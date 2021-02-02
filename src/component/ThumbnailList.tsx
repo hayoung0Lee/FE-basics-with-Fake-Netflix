@@ -18,13 +18,21 @@ const ListWrapper = styled.div`
     overflow-x: scroll;
 `;
 
-function ThumbnailList({ name, length, loadImgCount }) {
-    const [loadImageCount, setLoadImageCount] = useState(loadImgCount);
-    const imgs = useRef();
+interface ThumbnailListInfo {
+    name: string;
+    length: number;
+    loadImgCount: number;
+}
 
-    const callBack = (entries, observer) => {
+const ThumbnailList: React.FC<ThumbnailListInfo> = ({ name, length, loadImgCount }: ThumbnailListInfo) => {
+    const [loadImageCount, setLoadImageCount] = useState(loadImgCount);
+    const imgs = useRef<HTMLInputElement>(null);
+
+    const callBack = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        // 이미지 옆으로 스크롤 했을때 lazy loading 하는 부분
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
+                // 실제로 화면에 그려지고 나면 보이도록 구성
                 setLoadImageCount((loadImageCount) => loadImageCount + 1);
                 observer.unobserve(entry.target);
             }
@@ -32,14 +40,17 @@ function ThumbnailList({ name, length, loadImgCount }) {
     };
 
     useEffect(() => {
-        const childImgs = imgs.current.children;
-        const io = new IntersectionObserver(callBack);
-        let idx = 0;
-        for (let child of childImgs) {
-            if (idx >= loadImageCount) {
-                io.observe(child);
+        if (imgs.current) {
+            const childImgs: HTMLCollection = imgs.current.children;
+            const io: IntersectionObserver = new IntersectionObserver(callBack);
+            let idx = 0;
+            for (const child of childImgs) {
+                if (idx >= loadImageCount) {
+                    // observer는 지정한 부분 밖에 있는것만!
+                    io.observe(child);
+                }
+                idx++;
             }
-            idx += 1;
         }
         // eslint-disable-next-line
     }, []);
@@ -49,23 +60,12 @@ function ThumbnailList({ name, length, loadImgCount }) {
     return (
         <ThumNailListWrapper>
             <ListTitle>{name}</ListTitle>
-            <ListWrapper
-                ref={imgs}
-                // onScroll={(e) => {
-                //   e.stopPropagation();
-                //   // console.log(
-                //   //   "scroll 이벤트가 발생하고 있습나다요~~",
-                //   //   e.target,
-                //   //   e.currentTarget
-                //   // );
-
-                //   // 여기서 새로운 영역에 해당이 되면(늘어나면) setLoadImageCount를 늘려준다.
-                // }}
-            >
+            <ListWrapper ref={imgs}>
                 {Array(length)
                     .fill('img')
-                    .map((i, index) => {
+                    .map((_i: number, index) => {
                         if (!!loadImageCount) {
+                            // setLoadImgCount로 이미지를 실제로 그릴지!
                             return <Thumbnail key={index} index={index} isLoaded={index < loadImageCount} />;
                         }
                         return <Thumbnail key={index} index={index} isLoaded={false} />;
@@ -73,6 +73,6 @@ function ThumbnailList({ name, length, loadImgCount }) {
             </ListWrapper>
         </ThumNailListWrapper>
     );
-}
+};
 
 export default ThumbnailList;

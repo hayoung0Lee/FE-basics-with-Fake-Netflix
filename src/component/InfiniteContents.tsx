@@ -1,7 +1,15 @@
 // import styled from "styled-components";
 import ThumbnailList from './ThumbnailList';
 
-const contents = {
+interface contentParams {
+    name: string;
+    length: number;
+}
+interface contentsType {
+    [Key: string]: contentParams;
+}
+
+const contents: contentsType = {
     1: {
         name: 'US TV Series',
         length: 10,
@@ -146,14 +154,16 @@ const getContents = () => {
         return contents[index];
     };
 };
-const InfiniteContents = ({ listCount }) => {
+const InfiniteContents: React.FC<{ listCount: number }> = ({ listCount }) => {
     const contentsGenerator = getContents();
+    console.log('listcount', listCount);
     return (
         <>
             {Array(listCount)
                 .fill('con')
-                .map((i, index) => {
+                .map((_i, index) => {
                     const data = contentsGenerator();
+                    console.log('data', data);
                     return <ThumbnailList key={index} name={data['name']} length={data['length']} loadImgCount={6} />;
                 })}
         </>

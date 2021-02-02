@@ -8,6 +8,7 @@ import { useState, useRef, useContext } from 'react';
 import throttling from '../../utils/throttle';
 import Store from '../../utils/store';
 import bg from '../../utils/bg.webp';
+import Footer from '../Footer';
 
 const MainWrapper = styled.div`
     margin-left: auto;
@@ -37,7 +38,9 @@ function Main() {
         // 즉 그래서 스크롤을 끝까지 하면 문서크기랑 check가 같아진다.
         // 그래서 문서의 전체 높이보다 조금작을때까지 보다 커지면, 즉 스크롤 쭉해서 완전 바닥까지 다 내리기 직전에 listCount를 하나 증가시켜서 새로운 list를 그려준다.
         if (check > totalHeight - listHeight * 3) {
-            setListCount((listCount) => listCount + 1);
+            if (listCount < 10) {
+                setListCount((listCount) => listCount + 1);
+            }
         }
 
         // 현재 스크롤로 가려진 부분의 높이
@@ -59,6 +62,7 @@ function Main() {
                 <ThumbnailList name="My List" length={18} loadImgCount={6} />
                 <ThumbnailList name="Trending Now" length={10} loadImgCount={6} />
                 <InfiniteContents listCount={listCount} />
+                <Footer />
             </MainWrapper>
         </>
     );

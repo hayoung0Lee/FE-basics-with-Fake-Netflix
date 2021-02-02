@@ -1,7 +1,6 @@
 // 헤더, 라우터 정의 하는 곳
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './container/Header';
-import Footer from './container/Footer';
 import SearchPage from './container/search/Search';
 import Settings from './container/settings/Settings';
 import Browses from './container/browse/BrowseRoute';
@@ -31,7 +30,6 @@ function App() {
                     </Switch>
                 </Store.Provider>
             </Router>
-            <Footer />
         </>
     );
 }
