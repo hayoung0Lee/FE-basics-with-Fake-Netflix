@@ -31,32 +31,32 @@
 // setTimeout이 제때 실행되서 clear해주는게 아니면 실행되는 부분이다
 
 const debounce = (fn, wait) => {
-  let lastTimeoutId = null;
-  // 클로저, 아래의 내용을 반환한다.
-  return (...args) => {
-    // 여기를 한번 더 감싸서 promise 함수를 반환한다.
-    return new Promise((resolve) => {
-      let checkTimeoutId = null;
+    let lastTimeoutId = null;
+    // 클로저, 아래의 내용을 반환한다.
+    return (...args) => {
+        // 여기를 한번 더 감싸서 promise 함수를 반환한다.
+        return new Promise((resolve) => {
+            let checkTimeoutId = null;
 
-      if (lastTimeoutId) {
-        // 이전에 불린게 있으면, timeout을 clear한다.
-        clearTimeout(lastTimeoutId); // lastTimeoutId는 마지막 명령을 가리킨다
-        lastTimeoutId = null; // 이렇게 아예 해제한다
-      }
+            if (lastTimeoutId) {
+                // 이전에 불린게 있으면, timeout을 clear한다.
+                clearTimeout(lastTimeoutId); // lastTimeoutId는 마지막 명령을 가리킨다
+                lastTimeoutId = null; // 이렇게 아예 해제한다
+            }
 
-      lastTimeoutId = setTimeout(() => {
-        clearTimeout(checkTimeoutId);
-        fn(...args); // 함수에 모든 인자를 넘겨준다
-        resolve(true);
-        lastTimeoutId = null;
-      }, wait);
+            lastTimeoutId = setTimeout(() => {
+                clearTimeout(checkTimeoutId);
+                fn(...args); // 함수에 모든 인자를 넘겨준다
+                resolve(true);
+                lastTimeoutId = null;
+            }, wait);
 
-      // wait만큼 기다렸는데, clearTimeout안되면 얘를 실행한다.
-      checkTimeoutId = setTimeout(() => {
-        resolve(false);
-      }, wait);
-    });
-  };
+            // wait만큼 기다렸는데, clearTimeout안되면 얘를 실행한다.
+            checkTimeoutId = setTimeout(() => {
+                resolve(false);
+            }, wait);
+        });
+    };
 };
 
 export default debounce;

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import PhotoList from '../../component/PhotoList';
