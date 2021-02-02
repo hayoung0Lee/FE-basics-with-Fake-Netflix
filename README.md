@@ -379,14 +379,46 @@ Debounce를 통해 연달아 타이핑 하는 경우에 event가 더이상 발�
 - [Do you know what a virtual list is](https://dev.to/rtorr/do-you-know-what-a-virtual-list-is-2e4e?signin=true)
   - 트위터처럼 엄청나게 많은 글들을 렌더링 해야할때, 어차피 위에것들을 유지하는게 나중에는 필요없어진다. 그래서 일정 부분만 렌더링하는 최적화가 필요한 것이라고 한다. 
 
+<img src="./assets/8.png">
+
+좀 머리가 아팠다. Justified-layout이 내가 생각한대로 잘안되긴 했다. 그래서 높이도 약간 다다르고.. 이건 나중에 진짜할일이 있으면 제대로 봐야할 것 같다. 
+
+Virtual-list는 이화면에선 딱히 맞는건 아니지만, 개념을 공부할 겸 구현했다. 
+
+기본적으로는 보이는 부분만 렌더링하고, 아닌 부분은 보이지 않는 것인데, 아직 기능은 한참더 구현해야할 것 같다. 
+
+스크롤을 해서 위로 올라가는 부분은 더이상 보이지 않도록 인덱스를 조절하는 방식을 사용했다. 
+
+```javascript
+const getVisibleList = (list, hiddenHeight) => {
+  const visibleList = [];
+  // visible 범위 를 구해서 해당하는것만 그리기
+  const itemHeight = 500;
+  const startIndex = 0 + Math.floor((hiddenHeight + 68) / itemHeight);
+  const endIndex = 4 + Math.floor((hiddenHeight + 68) / itemHeight);
+
+  // const iter = list[Symbol.iterator]();
+  // for (const el of iter) {
+  //   visibleList.push(...el);
+  // }
+
+  console.log(startIndex, endIndex);
+  for (let i = startIndex; i < endIndex && i < list.length; i++) {
+    visibleList.push(...list[i]);
+  }
+  return visibleList;
+};
+```
+
+하지만 여기에 Image들을 LazyLoad로 로딩하는 등, 해줄 수 잇는 것은 더 있을 것 같다. 
 
 ## 5단계 프로젝트 구조 개선
-
+- componenet 폴더: 한페이지내에서 조합해서 쓰이는 컴포넌트들을 넣는 곳
+- container 폴더: subrouter와 페이지단위의 것들을 넣었다. 
+- utils: 여기저기서 쓰이는 함수나, store를 넣었다. 
 
 <!-- - [일상님..](https://github.com/1ilsang/never-cloud/blob/master/package.json) -->
 ## 후기
-
-
 
 
 
@@ -426,3 +458,21 @@ Debounce를 통해 연달아 타이핑 하는 경우에 event가 더이상 발�
 
 ### 4단계 마크업을 마무리하기
 - account 페이지는 그냥 마크업 연습만 하는 정도로! -->
+
+
+
+## [typescript 설정](https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/)
+
+- volta pin node yarn
+
+- yarn add typescript
+- yarn add -D @types/node @types/react @types/react-dom @types/jest @types/justified-layout @types/react-router-dom @types/styled-components
+
+- yarn tsc --init
+
+- [tsconfig 설정](https://www.sitepoint.com/react-with-typescript-best-practices/)
+
+- 17 버전 이상에서 react import 관련에러: https://stackoverflow.com/questions/64656055/react-refers-to-a-umd-global-but-the-current-file-is-a-module/64677253
+```
+"jsx": "react-jsx",
+```
