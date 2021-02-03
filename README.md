@@ -92,16 +92,17 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
 
    - Thumbnail 컴포넌트에서 기본적으로 이미지를 로드할 경우에는 src 속성, 아닌경우에는 data-src 속성을 이용해 컴포넌트를 구성한 후, IntersectionObeserver API를 통해서 화면에 나타나는 경우 src 속성으로 보이도록 구성 [소스보기](src/component/Thumbnail.tsx)
 
-  - IntersectionObserver API는 ThumbnailList에서 observer 를 등록한다. 
-    - useRef를 통해서 해당하는 Thumbnail list의 element를 가져오고, 각 element를 observer한다고 등록한다
-    - 이후, 조건에 해당한 후 더이상 observer 하지 않는다고 unobserver를 한다. 
+    - IntersectionObserver API는 ThumbnailList에서 observer 를 등록한다. 
+      - useRef를 통해서 해당하는 Thumbnail list의 element를 가져오고, 각 element를 observer한다고 등록한다
+      - 이후, 조건에 해당한 후 더이상 observer 하지 않는다고 unobserver를 한다. 
   
-  <img src="./assets/7.png" />
+      <img src="./assets/7.png" />
 
 
 
 4. Infinite Scroll
-  - throttling을 통해서 구현함
+   - throttling을 통해서 구현함
+
 
 5. Virtual List & Justified Layout
    - 트위터처럼 엄청나게 많은 글들을 렌더링 해야할때, 어차피 위에것들을 유지하는게 나중에는 필요없어진다. 그래서 일정 부분만 렌더링하는 최적화가 필요한 것이라고 한다. 
