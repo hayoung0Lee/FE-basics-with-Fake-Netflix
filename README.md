@@ -2,8 +2,6 @@
 FE basics with Fake Netflix
 
 ## React 와 FE basics 다루기
-Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면서 React 기본기를 다시 다지고, FE basics도 익히려고 한다. 
-
 [Visit My Website](https://romantic-goldberg-a2af0b.netlify.app/)
 
 - 개발한 화면 
@@ -22,10 +20,10 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
    - ex) 글자가 타다타다닥 연달아 쳐지면 제일 마지막에 search function이 실행 되는것(따다다다닥 뭔가를 치고 200ms동안 아무일도 없으면 실행, 이 시간내에 뭔일이 있으면 타이머를 다시 설정)
    - 200ms라는 시간을 설정하면, 200ms동안 아무일도 없으면 API를 날리고, 200ms내에 뭔 동작이 있으면 타이머를 거기서 부터 다시 200ms로 설정한다. 그래서 계속 따다다다다다다다닥 치고 200ms를 쉬면 그때야 API를 날린다. 
 
-  - [소스 코드 보기](./src/utils/debounce.ts)
+   - [소스 코드 보기](./src/utils/debounce.ts)
 
-  - 사용 예시(searchBtn.tsx)
-    - 파일내에서 search 창에 입력이 있을때 200ms 동안 아무일도 없을 때 state를 업데이트 해준다
+   - 사용 예시(searchBtn.tsx)
+     - 파일내에서 search 창에 입력이 있을때 200ms 동안 아무일도 없을 때 state를 업데이트 해준다
   
     ```javascript
     const SearchBtn: React.FC = () => {
@@ -126,9 +124,9 @@ Netflix(React로 멋지게 만든것!)처럼 잘만든 사이트를 따라하면
 
 
 6. TypeScript Migration
-  - https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/
-  - 위를 보고 typescript, eslint, prettier를 설정했다.
-  - volta를 통해서 node와 yarn 버전도 고정했다
+    - https://www.sitepoint.com/how-to-migrate-a-react-app-to-typescript/
+    - 위를 보고 typescript, eslint, prettier를 설정했다.
+    - volta를 통해서 node와 yarn 버전도 고정했다
 
 ## 후기
 꽤 장기간에 걸쳐 여러 개념을 공부하면서 만들었다. 이미지 처리 관련 한 부분은 계속 공부해보면 재밌을것 같다.특히 이 프로젝트는 그냥 일부러 이미지를 많이 넣어봤는데, 이렇게 이미지가 많은 페이지는 최적화가 까다롭겠구나 깨달을 수 있는 시기였다. 특히 TypeScript로 마이그레이션 하기 위해서 내가 짠 코드를 다시 봤는데 다시볼때 잘 이해가 안되는 부분도 있었다. 특히, `debounce와 throttle, IntersectionObserver API` 는 유용하게 많이 쓸 개념 같은데 쓰고 돌아서면 까먹고의 반복이라, 다른 프로젝트를 하면서도 꾸준히 개념을 기억해야겠다!(원래는 라이브러리도 많이 쓰는것 같다)
