@@ -1,11 +1,12 @@
 import { Redirect } from 'react-router-dom';
 import { useState } from 'react';
 import debounce from '../utils/debounce';
+import React from 'react';
 
-function SearchBtn() {
+const SearchBtn: React.FC = () => {
     const [searchWord, setSearchWord] = useState('');
 
-    const searchInit = (e) => {
+    const searchInit = (e: React.ChangeEvent<HTMLInputElement>[]) => {
         // 지정된 시간동안 이 함수가 여러번 호출되면 제일끝에 200ms동안 아무일도 없으면 검색하기!
         setSearchWord(e[0].target.value);
     };
@@ -15,7 +16,11 @@ function SearchBtn() {
 
     return (
         <div>
-            <input onChange={(e) => debounceSearch(e).then((result) => console.log('실행 여부', result))} />
+            <input
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    debounceSearch(e).then((result) => console.log('실행 여부', result));
+                }}
+            />
             {/* search Word가 없으면 browse로 redirect */}
             {!searchWord && (
                 <Redirect
@@ -35,6 +40,6 @@ function SearchBtn() {
             )}
         </div>
     );
-}
+};
 
 export default SearchBtn;

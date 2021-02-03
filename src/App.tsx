@@ -8,7 +8,18 @@ import { Store } from './utils/store';
 import { useState } from 'react';
 
 // 프로젝트의 전체 헤더, 푸터 설정 및 라우터 설정
-function App() {
+// interface paramType {
+//     [index: number]: string;
+// }
+
+// export interface matchParams {
+//     isExact?: boolean;
+//     params?: paramType;
+//     path?: string;
+//     url?: string;
+// }
+
+const App: React.FC = () => {
     const [scroll, setScroll] = useState(0);
     return (
         <>
@@ -27,12 +38,17 @@ function App() {
                         <Route path="/settings">
                             <Settings />
                         </Route>
-                        <Route path="/*" render={({ match }) => <Browses match={match} />}></Route>
+                        <Route
+                            path="/*"
+                            render={() => {
+                                return <Browses />;
+                            }}
+                        ></Route>
                     </Switch>
                 </Store.Provider>
             </Router>
         </>
     );
-}
+};
 
 export default App;

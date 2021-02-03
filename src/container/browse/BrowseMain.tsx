@@ -6,7 +6,7 @@ import ThumbnailList from '../../component/ThumbnailList';
 import InfiniteContents from '../../component/InfiniteContents';
 import { useState, useRef, useContext } from 'react';
 import throttling from '../../utils/throttle';
-import { Store, ScrollType } from '../../utils/store';
+import { Store } from '../../utils/store';
 import bg from '../../utils/bg.webp';
 import Footer from '../Footer';
 
@@ -23,13 +23,11 @@ const MainWrapper = styled.div`
     background-size: 100%;
 `;
 
-function Main() {
-    // eslint-disable-next-line
-    const scroll = useContext(Store).scroll;
-    const setScorll = useContext(Store).setScroll;
+const Main: React.FC = () => {
+    const setScroll = useContext(Store).setScroll;
 
     const [listCount, setListCount] = useState(2);
-    const main = useRef();
+    const main = useRef<HTMLInputElement>(null);
 
     const listHeight = 148;
     const infiniteLoad = () => {
@@ -46,7 +44,9 @@ function Main() {
         }
 
         // 현재 스크롤로 가려진 부분의 높이
-        setScorll(hiddenHeight);
+        if (setScroll) {
+            setScroll(hiddenHeight);
+        }
     };
     // throttle
     const throttleWheel = throttling(infiniteLoad, 200);
@@ -55,7 +55,7 @@ function Main() {
         <>
             <MainWrapper
                 ref={main}
-                onWheel={(e) => {
+                onWheel={() => {
                     throttleWheel();
                 }}
             >
@@ -68,6 +68,6 @@ function Main() {
             </MainWrapper>
         </>
     );
-}
+};
 
 export default Main;

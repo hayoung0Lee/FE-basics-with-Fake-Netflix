@@ -2,8 +2,8 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import Main from './BrowseMain';
 import Genre from './BrowseGenre';
 
-function Browses({ props }) {
-    let match = useRouteMatch();
+const Browses: React.FC = () => {
+    const match = useRouteMatch();
 
     return (
         <Switch>
@@ -18,6 +18,6 @@ function Browses({ props }) {
             </Route>
         </Switch>
     );
-}
+};
 
 export default Browses;

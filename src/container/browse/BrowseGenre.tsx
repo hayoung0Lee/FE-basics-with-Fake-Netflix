@@ -14,8 +14,11 @@ const BrowseGenreStyle = styled.div`
     color: white;
 `;
 
-function Genre() {
-    let { id } = useParams();
+interface paramTypes {
+    id: string;
+}
+const Genre: React.FC = () => {
+    const { id } = useParams<paramTypes>();
     const location = useLocation();
 
     return (
@@ -24,6 +27,6 @@ function Genre() {
             <span>You are currently seeing {location.pathname} page</span>
         </BrowseGenreStyle>
     );
-}
+};
 
 export default Genre;

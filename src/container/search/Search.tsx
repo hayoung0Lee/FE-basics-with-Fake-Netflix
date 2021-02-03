@@ -17,8 +17,8 @@ const SearchStyle = styled.div`
     color: white;
 `;
 
-function SearchView() {
-    let query = useQuery();
+const SearchView: React.FC = () => {
+    const query = useQuery();
     return (
         <>
             <SearchStyle>
@@ -29,6 +29,6 @@ function SearchView() {
             <PhotoList />
         </>
     );
-}
+};
 
 export default SearchView;
