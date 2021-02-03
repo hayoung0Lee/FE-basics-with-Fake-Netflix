@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchBtn from '../component/SearchBtn';
-import Store from '../utils/store';
+import { Store, ScrollType } from '../utils/store';
 import { useContext } from 'react';
 
 const HeaderWrap = styled.div`
@@ -17,7 +17,7 @@ const HeaderWrap = styled.div`
     padding-right: 5%;
     position: fixed;
     z-index: 100;
-    background-image: ${(props) =>
+    background-image: ${(props: ScrollType) =>
         props.scroll < 15
             ? `linear-gradient(
     to bottom,
@@ -25,7 +25,7 @@ const HeaderWrap = styled.div`
     rgba(0, 0, 0, 0)
   )`
             : ''};
-    background-color: ${(props) => (props.scroll >= 15 ? `#141414` : '')};
+    background-color: ${(props: ScrollType) => (props.scroll >= 15 ? `#141414` : '')};
     transition: background-color 0.5s;
 `;
 
@@ -48,16 +48,16 @@ const NavMenuLink = styled(NavLink)`
     cursor: pointer;
 `;
 
-const activeStyle = {
+const activeStyle: React.CSSProperties = {
     fontWeight: 'bold',
     color: 'white',
     cursor: 'default',
     pointerEvents: 'none',
 };
 
-function Header(props) {
+const Header: React.FC = () => {
     // eslint-disable-next-line
-    const [scroll, setScroll] = useContext(Store).scroll;
+    const scroll = useContext(Store).scroll;
 
     return (
         <HeaderWrap scroll={scroll}>
@@ -96,6 +96,6 @@ function Header(props) {
             <SearchBtn />
         </HeaderWrap>
     );
-}
+};
 
 export default Header;

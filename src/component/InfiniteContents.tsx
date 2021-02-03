@@ -156,14 +156,14 @@ const getContents = () => {
 };
 const InfiniteContents: React.FC<{ listCount: number }> = ({ listCount }) => {
     const contentsGenerator = getContents();
-    console.log('listcount', listCount);
+    // console.log('listcount', listCount);
     return (
         <>
             {Array(listCount)
                 .fill('con')
                 .map((_i, index) => {
                     const data = contentsGenerator();
-                    console.log('data', data);
+                    // console.log('data', data);
                     return <ThumbnailList key={index} name={data['name']} length={data['length']} loadImgCount={6} />;
                 })}
         </>

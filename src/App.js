@@ -4,7 +4,7 @@ import Header from './container/Header';
 import SearchPage from './container/search/Search';
 import Settings from './container/settings/Settings';
 import Browses from './container/browse/BrowseRoute';
-import Store from './utils/store';
+import { Store } from './utils/store';
 import { useState } from 'react';
 
 // 프로젝트의 전체 헤더, 푸터 설정 및 라우터 설정
@@ -15,7 +15,8 @@ function App() {
             <Router>
                 <Store.Provider
                     value={{
-                        scroll: [scroll, setScroll],
+                        scroll: scroll,
+                        setScroll: setScroll,
                     }}
                 >
                     <Header />

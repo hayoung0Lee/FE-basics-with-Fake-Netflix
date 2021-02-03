@@ -1,7 +1,10 @@
-const throttling = (fn, waits) => {
-    let throttleCheck = null; // 처음에 false로 생성
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-    return (...args) => {
+const throttling = (fn: (args: any[]) => void, waits: number) => {
+    let throttleCheck: NodeJS.Timeout | null = null; // 처음에 false로 생성
+
+    return (...args: any[]) => {
         if (!throttleCheck) {
             // console.log("이제 실행할 때가 됬다");
             // false이면 setTimeout을 설정할 수 있다. 그다음에는 throttle은 뭔가를 가리키고 있다.
@@ -9,7 +12,7 @@ const throttling = (fn, waits) => {
             // 얘가 끝나야 다시 새로운 동작을 등록할 수 있다. 그리고 처음에 시작한건 지정한 시간이 지나면 한번은 실행된다.
             // debounce는 동작이 연달아 쭉있으면 앞에껀 다 timer가 클리어되는데 반해 얘는 쭉있으면 그래도 지정한 시간만다 한번은 실행한다.
             throttleCheck = setTimeout(() => {
-                fn(...args);
+                fn(args);
                 throttleCheck = null;
             }, waits);
         }

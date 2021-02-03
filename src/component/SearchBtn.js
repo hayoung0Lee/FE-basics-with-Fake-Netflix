@@ -7,7 +7,7 @@ function SearchBtn() {
 
     const searchInit = (e) => {
         // 지정된 시간동안 이 함수가 여러번 호출되면 제일끝에 200ms동안 아무일도 없으면 검색하기!
-        setSearchWord(e.target.value);
+        setSearchWord(e[0].target.value);
     };
 
     // debounce에 searchInit 함수를 넘겨준다. 그래서 debounceSearch에 event를 넘겨줘서 처리하는 함수를 만든다.

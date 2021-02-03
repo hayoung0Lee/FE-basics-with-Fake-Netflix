@@ -13,7 +13,7 @@ const SettingsStyle = styled.div`
     color: white;
 `;
 
-function Settings() {
+const Settings: React.FC = () => {
     const location = useLocation();
 
     return (
@@ -23,6 +23,6 @@ function Settings() {
             </div>
         </SettingsStyle>
     );
-}
+};
 
 export default Settings;

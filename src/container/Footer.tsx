@@ -13,9 +13,9 @@ const FooterStyle = styled.div`
     color: grey;
     height: 250px;
 `;
-function Footer() {
+const Footer: React.FC = () => {
     // eslint-disable-next-line react/no-unescaped-entities
     return <FooterStyle>FakeFlix's Footer</FooterStyle>;
-}
+};
 
 export default Footer;

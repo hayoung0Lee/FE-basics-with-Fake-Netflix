@@ -3,7 +3,20 @@ import styled from 'styled-components';
 import { useEffect, useState, useContext } from 'react';
 import justifiedLayout from 'justified-layout';
 import throttling from '../utils/throttle';
-import Store from '../utils/store';
+import { Store } from '../utils/store';
+
+interface layoutType {
+    aspectRatio: number;
+    top: number;
+    width: number;
+    height: number;
+    left: number;
+}
+
+interface positionType {
+    index: number;
+    position: layoutType;
+}
 
 const LayoutStyle = styled.div`
     width: 1060px;
@@ -13,7 +26,7 @@ const LayoutStyle = styled.div`
     height: 100%;
 `;
 
-const generateLayout = (photoData, targetRowHeight) => {
+const generateLayout = (targetRowHeight: number) => {
     const jLayout = justifiedLayout(
         [
             0.5,
@@ -55,7 +68,7 @@ const generateLayout = (photoData, targetRowHeight) => {
     return jLayout;
 };
 
-const generateBreakPointWithHeight = (list) => {
+const generateBreakPointWithHeight = (list: layoutType[]) => {
     const iter = list[Symbol.iterator]();
     let prev = iter.next().value;
     let index = 0;
@@ -76,41 +89,39 @@ const generateBreakPointWithHeight = (list) => {
     return breakedList;
 };
 
-const getVisibleList = (list, hiddenHeight) => {
+const getVisibleList = (list: positionType[][], hiddenHeight: number) => {
     const visibleList = [];
     // visible 범위 를 구해서 해당하는것만 그리기
     const itemHeight = 500;
     const startIndex = 0 + Math.floor((hiddenHeight + 68) / itemHeight);
     const endIndex = 4 + Math.floor((hiddenHeight + 68) / itemHeight);
 
-    // const iter = list[Symbol.iterator]();
-    // for (const el of iter) {
-    //   visibleList.push(...el);
-    // }
-
-    console.log(startIndex, endIndex);
     for (let i = startIndex; i < endIndex && i < list.length; i++) {
         visibleList.push(...list[i]);
     }
+
     return visibleList;
 };
 
-const PhotoList = () => {
+const PhotoList: React.FC = () => {
     // eslint-disable-next-line
-    const [scroll, setScorll] = useContext(Store).scroll;
+    // const scroll = useContext(Store).scroll;
+    const setScroll = useContext(Store).setScroll;
     const targetRowHeight = 500;
-    const [layout, setLayout] = useState([]);
-    const [breakedList, setBreakedList] = useState([]);
-    const [visibleList, setVisibleList] = useState(null);
+    const [layout, setLayout] = useState<layoutType[]>([]);
+    const [breakedList, setBreakedList] = useState<positionType[][]>([]);
+    const [visibleList, setVisibleList] = useState<positionType[]>([]);
 
     const throttleWheel = throttling(() => {
         const hiddenHeight = document.documentElement.scrollTop; // 위에 스크롤해서 가려진 부분의 높이, 즉 내가 스크롤해서 가려진 부분의 높이
         setVisibleList(getVisibleList(breakedList, hiddenHeight));
-        setScorll(hiddenHeight);
+        if (setScroll) {
+            setScroll(hiddenHeight);
+        }
     }, 500);
 
     useEffect(() => {
-        const generatedLayout = generateLayout(photoData, targetRowHeight).boxes;
+        const generatedLayout = generateLayout(targetRowHeight).boxes;
         setLayout(generatedLayout);
         const breakedList = generateBreakPointWithHeight(generatedLayout);
         setBreakedList(breakedList);
@@ -123,30 +134,34 @@ const PhotoList = () => {
         return <div>....</div>;
     }
 
+    console.log(breakedList);
+
     return (
         <>
             <LayoutStyle
-                onWheel={(e) => {
+                onWheel={() => {
                     throttleWheel();
                 }}
             >
                 {visibleList.map((p, index) => {
+                    const pstyle: React.CSSProperties = {
+                        position: 'absolute',
+                        top: p.position.top,
+                        left: p.position.left,
+                        width: p.position.width,
+                        height: p.position.height,
+                        backgroundColor: 'rgba(255,255,255,0.95)',
+                        outline: '1px solid black',
+                        display: 'inline-flex',
+                        overflow: 'hidden',
+                        verticalAlign: 'middle',
+                    };
+
                     return (
-                        <div
-                            key={index}
-                            style={{
-                                position: 'absolute',
-                                ...p.position,
-                                backgroundColor: 'rgba(255,255,255,0.95)',
-                                outline: '1px solid black',
-                                display: 'inline-flex',
-                                overflow: 'hidden',
-                                verticalAlign: 'middle',
-                            }}
-                        >
+                        <div key={index} style={pstyle}>
                             <img
                                 key={index}
-                                alt={index}
+                                alt={`${index}`}
                                 src={`${process.env.PUBLIC_URL}/${photoData.photo[p.index].url}`}
                                 style={{
                                     verticalAlign: 'middle',

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // promise가 없이
 // const debounce = (fn, wait) => {
 //   let lastTimeoutId = null;
@@ -30,13 +32,14 @@
 // 3. 이대 checkTimeoutId가 등장하는데 얘는 내가 현재 뭔지를 가리킨다. 즉, lastTimeout는 여러 setTimeout이 공유해서 쓰는거고,checkTimeoutId는 현재거라,
 // setTimeout이 제때 실행되서 clear해주는게 아니면 실행되는 부분이다
 
-const debounce = (fn, wait) => {
-    let lastTimeoutId = null;
+const debounce = (fn: (args: any) => void, wait: number) => {
+    let lastTimeoutId: NodeJS.Timeout | null = null;
+
     // 클로저, 아래의 내용을 반환한다.
-    return (...args) => {
+    return (...args: any) => {
         // 여기를 한번 더 감싸서 promise 함수를 반환한다.
         return new Promise((resolve) => {
-            let checkTimeoutId = null;
+            let checkTimeoutId: NodeJS.Timeout | null = null;
 
             if (lastTimeoutId) {
                 // 이전에 불린게 있으면, timeout을 clear한다.
@@ -45,15 +48,17 @@ const debounce = (fn, wait) => {
             }
 
             lastTimeoutId = setTimeout(() => {
-                clearTimeout(checkTimeoutId);
-                fn(...args); // 함수에 모든 인자를 넘겨준다
+                if (checkTimeoutId) {
+                    clearTimeout(checkTimeoutId);
+                }
+                fn(args); // 함수에 모든 인자를 넘겨준다
                 resolve(true);
                 lastTimeoutId = null;
             }, wait);
 
             // wait만큼 기다렸는데, clearTimeout안되면 얘를 실행한다.
             checkTimeoutId = setTimeout(() => {
-                resolve(false);
+                resolve(false); // 체크하기 위한 용도
             }, wait);
         });
     };

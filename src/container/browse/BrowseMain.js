@@ -6,7 +6,7 @@ import ThumbnailList from '../../component/ThumbnailList';
 import InfiniteContents from '../../component/InfiniteContents';
 import { useState, useRef, useContext } from 'react';
 import throttling from '../../utils/throttle';
-import Store from '../../utils/store';
+import { Store, ScrollType } from '../../utils/store';
 import bg from '../../utils/bg.webp';
 import Footer from '../Footer';
 
@@ -25,7 +25,9 @@ const MainWrapper = styled.div`
 
 function Main() {
     // eslint-disable-next-line
-    const [scroll, setScorll] = useContext(Store).scroll;
+    const scroll = useContext(Store).scroll;
+    const setScorll = useContext(Store).setScroll;
+
     const [listCount, setListCount] = useState(2);
     const main = useRef();
 
@@ -38,7 +40,7 @@ function Main() {
         // 즉 그래서 스크롤을 끝까지 하면 문서크기랑 check가 같아진다.
         // 그래서 문서의 전체 높이보다 조금작을때까지 보다 커지면, 즉 스크롤 쭉해서 완전 바닥까지 다 내리기 직전에 listCount를 하나 증가시켜서 새로운 list를 그려준다.
         if (check > totalHeight - listHeight * 3) {
-            if (listCount < 10) {
+            if (listCount < 45) {
                 setListCount((listCount) => listCount + 1);
             }
         }
