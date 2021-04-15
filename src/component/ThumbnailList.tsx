@@ -29,6 +29,7 @@ const ThumbnailList: React.FC<ThumbnailListInfo> = ({ name, length, loadImgCount
     const imgs = useRef<HTMLInputElement>(null);
 
     const callBack = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+        // entries 관찰할 대상들, 여러개가 있다. 우리는 div 여러개
         // 이미지 옆으로 스크롤 했을때 lazy loading 하는 부분
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -40,6 +41,8 @@ const ThumbnailList: React.FC<ThumbnailListInfo> = ({ name, length, loadImgCount
     };
 
     useEffect(() => {
+        console.log('imgs', imgs.current);
+
         if (imgs.current) {
             const childImgs: HTMLCollection = imgs.current.children;
             const io: IntersectionObserver = new IntersectionObserver(callBack);
@@ -47,7 +50,7 @@ const ThumbnailList: React.FC<ThumbnailListInfo> = ({ name, length, loadImgCount
             for (const child of childImgs) {
                 if (idx >= loadImageCount) {
                     // observer는 지정한 부분 밖에 있는것만!
-                    io.observe(child);
+                    io.observe(child); // 요소등록
                 }
                 idx++;
             }

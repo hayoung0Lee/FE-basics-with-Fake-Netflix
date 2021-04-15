@@ -31,6 +31,7 @@
 // 2. 근데 여기서는 한번더 감싸가지구 promise를 반환했어서 debouncedLog(1) 한다고 뭐 바로 다 끝나는거 아니고, thenable한 객체가 반환된다.
 // 3. 이대 checkTimeoutId가 등장하는데 얘는 내가 현재 뭔지를 가리킨다. 즉, lastTimeout는 여러 setTimeout이 공유해서 쓰는거고,checkTimeoutId는 현재거라,
 // setTimeout이 제때 실행되서 clear해주는게 아니면 실행되는 부분이다
+// checktimeout은 실행 취소되는거 확인해려고 넣어둔 용도
 
 const debounce = (fn: (args: any) => void, wait: number) => {
     let lastTimeoutId: NodeJS.Timeout | null = null;
@@ -39,7 +40,7 @@ const debounce = (fn: (args: any) => void, wait: number) => {
     return (...args: any) => {
         // 여기를 한번 더 감싸서 promise 함수를 반환한다.
         return new Promise((resolve) => {
-            let checkTimeoutId: NodeJS.Timeout | null = null;
+            // let checkTimeoutId: NodeJS.Timeout | null = null;
 
             if (lastTimeoutId) {
                 // 이전에 불린게 있으면, timeout을 clear한다.
@@ -48,18 +49,18 @@ const debounce = (fn: (args: any) => void, wait: number) => {
             }
 
             lastTimeoutId = setTimeout(() => {
-                if (checkTimeoutId) {
-                    clearTimeout(checkTimeoutId);
-                }
+                // if (checkTimeoutId) {
+                //     clearTimeout(checkTimeoutId);
+                // }
                 fn(args); // 함수에 모든 인자를 넘겨준다
                 resolve(true);
                 lastTimeoutId = null;
             }, wait);
 
             // wait만큼 기다렸는데, clearTimeout안되면 얘를 실행한다.
-            checkTimeoutId = setTimeout(() => {
-                resolve(false); // 체크하기 위한 용도
-            }, wait);
+            // checkTimeoutId = setTimeout(() => {
+            //     resolve(false); // 체크하기 위한 용도
+            // }, wait);
         });
     };
 };
