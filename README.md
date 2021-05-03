@@ -19,11 +19,11 @@ FE basics with Fake Netflix
 
 ### 구현한 내용
 
-1. Debounce를 적용한 검색 기능
+1. Debounce를 적용한 검색 기능 - [소스코드 보기](https://github.com/hayoung0Lee/FE-basics-with-Fake-Netflix/blob/main/src/utils/debounce.ts)
 
-2. Throttle을 적용한 무한 스크롤 기능
+2. Throttle을 적용한 무한 스크롤 기능 - [소스코드 보기](https://github.com/hayoung0Lee/FE-basics-with-Fake-Netflix/blob/main/src/utils/throttle.ts)
 
-3. IntersectionObserver API 를 통한 Image Lazy Loading
+3. IntersectionObserver API 를 통한 Image Lazy Loading - [소스코드 보기](https://github.com/hayoung0Lee/FE-basics-with-Fake-Netflix/blob/main/src/component/ThumbnailList.tsx)
 
 4. TypeScript Migration
 
